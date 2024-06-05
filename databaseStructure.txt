@@ -1,0 +1,61 @@
+CREATE TABLE user_details(
+  userEmail varchar(100) PRIMARY KEY,
+  userName varchar(100),
+  userPw varchar(100),
+  contactNumb int,
+  userAddress varchar(100),
+  type varchar(100)
+);
+
+CREATE TABLE artist_details(
+  userEmail varchar(100) PRIMARY KEY,
+  profileImage longblob,
+  gender varchar(100),
+  birthday date,
+  perEventChargeOutdoor int,
+  perEventChargeIndoor int,
+  FOREIGN KEY (userEmail) REFERENCES user_details(userEmail)
+); 
+
+CREATE TABLE event_details(
+  eventId  int PRIMARY KEY,
+  eventName varchar(100),
+  eventVenue varchar(100),
+  eventImage varchar(100),
+  eventDate_Time datetime
+);
+
+CREATE TABLE select_event_artist(
+  eventId int,
+  userEmail varchar(100),
+  status varchar(100),
+  FOREIGN KEY (eventId) REFERENCES event_details(eventId),
+  FOREIGN KEY (userEmail) REFERENCES user_details(userEmail)
+);
+
+CREATE TABLE ticket_details(
+  ticketId  int PRIMARY KEY,
+  price int,
+  description varchar(100),
+  availableQty int,
+  eventId int,
+  FOREIGN KEY (eventId) REFERENCES event_details(eventId)
+);
+
+CREATE TABLE customer_details(
+  userEmail varchar(100),
+  FOREIGN KEY (userEmail) REFERENCES user_details(userEmail)
+);
+
+CREATE TABLE eventmanager_details(
+  userEmail varchar(100),
+  FOREIGN KEY (userEmail) REFERENCES user_details(userEmail)
+);
+
+CREATE TABLE customer_ticket_details(
+  ticketId int,
+  userEmail varchar(100),
+  date_time datetime,
+  FOREIGN KEY (userEmail) REFERENCES user_details(userEmail),
+  FOREIGN KEY (ticketId) REFERENCES ticket_details(ticketId)
+);
